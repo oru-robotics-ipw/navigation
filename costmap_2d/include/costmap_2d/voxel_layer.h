@@ -63,6 +63,7 @@ class VoxelLayer : public ObstacleLayer
 {
 public:
   VoxelLayer() :
+      treat_z_below_origin_as_free_(false),
       voxel_grid_(0, 0, 0)
   {
     costmap_ = NULL;  // this is the unsigned char* member of parent class's parent class Costmap2D.
@@ -96,6 +97,7 @@ private:
 
   dynamic_reconfigure::Server<costmap_2d::VoxelPluginConfig> *voxel_dsrv_;
 
+  bool treat_z_below_origin_as_free_;
   bool publish_voxel_;
   ros::Publisher voxel_pub_;
   voxel_grid::VoxelGrid voxel_grid_;

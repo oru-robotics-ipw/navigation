@@ -89,6 +89,7 @@ void VoxelLayer::reconfigureCB(costmap_2d::VoxelPluginConfig &config, uint32_t l
   unknown_threshold_ = config.unknown_threshold + (VOXEL_BITS - size_z_);
   mark_threshold_ = config.mark_threshold;
   combination_method_ = config.combination_method;
+  treat_z_below_origin_as_free_ = config.treat_z_below_origin_as_free;
   matchSize();
 }
 
@@ -166,7 +167,7 @@ void VoxelLayer::updateBounds(double robot_x, double robot_y, double robot_yaw, 
 
       // now we need to compute the map coordinates for the observation
       unsigned int mx, my, mz;
-      if (cloud.points[i].z < origin_z_)
+      if (!treat_z_below_origin_as_free_ && cloud.points[i].z < origin_z_)
       {
         if (!worldToMap3D(cloud.points[i].x, cloud.points[i].y, origin_z_, mx, my, mz))
           continue;
